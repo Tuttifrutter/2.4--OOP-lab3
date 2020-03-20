@@ -1,14 +1,22 @@
 ﻿using System.Drawing;
-
+using System;
+using System.Windows.Forms;
 namespace Shapes
 {
-    class Line : Shape
+    class Line : Shape {}
+    [Serializable]
+    class LineDraw : Draw
     {
-        public override void Draw(ref Bitmap bmp, int x1, int x2,int x3, int x4)
+        public override Shape DrawShape(ref Bitmap bmp)
         {
+            Pen pen = new Pen(GetPenColor())
+            {
+                Width = PenWidth
+            };
+            pen.Width = PenWidth;
             Graphics graph = Graphics.FromImage(bmp);
-            graph.DrawLine(pen, x1, x2, x3, x4);
+            graph.DrawLine(pen, arr[0], arr[1], arr[2]+arr[0], arr[3]+arr[1]);
+            return new Line();
         }
-    
     }
 }

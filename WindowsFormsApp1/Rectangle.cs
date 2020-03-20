@@ -1,12 +1,28 @@
 ﻿using System.Drawing;
+using System;
+using System.Windows.Forms;
 namespace Shapes
 {
-    class Rectangle : Shape
+    class Rectangle : Shape { }
+
+    [Serializable]
+    class RectangleDraw : Draw
     {
-        public override void Draw(ref Bitmap bmp, int x1, int x2, int x3, int x4)
+        public override Shape DrawShape(ref Bitmap bmp)
         {
-            Graphics graph = Graphics.FromImage(bmp); 
-            graph.DrawRectangle(pen, x1, x2, x3, x4);
+            Pen pen = new Pen(GetPenColor())
+            {
+                Width = PenWidth
+            };
+            pen.Width = PenWidth;
+            Graphics graph = Graphics.FromImage(bmp);
+            graph.DrawRectangle(pen, arr[0], arr[1], arr[2], arr[3]);
+            if (filling == true)
+            {
+                SolidBrush solidBrush = new SolidBrush(GetPenColor());
+                graph.FillRectangle(solidBrush, arr[0], arr[1], arr[2], arr[3]);
+            }
+            return new Rectangle();
         }
     }
 }

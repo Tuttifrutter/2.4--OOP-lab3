@@ -1,16 +1,40 @@
 ﻿using System.Drawing;
+using System;
+using System.Windows.Forms;
+
 
 namespace Shapes
 {
-    class Triangle : Shape
+    class Triangle : Shape { }
+    [Serializable]
+    class TriangleDraw : Draw
     {
-        public override void Draw(ref Bitmap bmp, int x1, int x2, int x3, int x4)
+        public override Shape DrawShape(ref Bitmap bmp)
         {
-            int x5 = 50;
-            int x6 = 50;
+            Pen pen = new Pen(GetPenColor())
+            {
+                Width = PenWidth
+            };
             Graphics graph = Graphics.FromImage(bmp);
-            Point[] PointARR = { new Point(x1, x2), new Point(x3, x4), new Point(x5, x6) };
+            double x3, y3;
+            if (arr[0] + arr[2] > arr[1] + arr[3])
+            {
+                x3 = arr[0] + arr[2] / 2;
+                y3 = arr[1] - (arr[0] + arr[2]) * Math.Sqrt(3) / 6;
+            }
+            else
+            {
+                y3 = arr[1] + arr[3] / 2;
+                x3 = arr[0] - (arr[1] + arr[3]) * Math.Sqrt(3) / 6;
+            }
+            Point[] PointARR = { new Point(arr[0], arr[1]), new Point(arr[2] + arr[0], arr[3] + arr[1]), new Point((int)x3,(int)y3)};
             graph.DrawPolygon(pen, PointARR);
+            if (filling == true) 
+            {
+                SolidBrush solidBrush = new SolidBrush(GetPenColor());
+                graph.FillPolygon(solidBrush, PointARR);
+            }
+            return new Triangle();
         }
     }
 }
